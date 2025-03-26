@@ -87,7 +87,7 @@ def generateTsne(embeddings,optimal_k,iteration,texts):
         cluster_texts = {"texts":[text for text, cluster in zip(texts, clusters) if cluster == cluster_id]}
         cluster_ids = {"ids":[index_map.get(item) for item in cluster_texts['texts']]}
         cluster_results = {**cluster_texts,**cluster_ids}
-        with open(f'cluster{iteration}{cluster_id}.json', 'w', encoding='utf-8') as cluster:
+        with open(f'clusters/cluster{iteration}{cluster_id}.json', 'w', encoding='utf-8') as cluster:
             json.dump(cluster_results, cluster, ensure_ascii=False)
 
 
@@ -110,7 +110,7 @@ iteration = 0
 k = 2
 generateTsne(embeddings,k,iteration,texts)
 for i in range(k):
-    with open(f'cluster0{i}.json', 'r', encoding='utf-8') as clusterFirst:
+    with open(f'clusters/cluster0{i}.json', 'r', encoding='utf-8') as clusterFirst:
         clusterIteration = json.load(clusterFirst)
     clusterIterationIds = clusterIteration['ids']
     clusterIterationTexts = clusterIteration['texts']
