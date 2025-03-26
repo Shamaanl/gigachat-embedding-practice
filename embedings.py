@@ -4,9 +4,7 @@ from langchain_gigachat.embeddings import GigaChatEmbeddings
 import json
 import numpy
 from json import JSONEncoder
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.cluster import KMeans
+import numpy
 from config import API_TOKEN
 
 class NumpyArrayEncoder(JSONEncoder):
@@ -15,16 +13,15 @@ class NumpyArrayEncoder(JSONEncoder):
             return obj.tolist()
         return JSONEncoder.default(self, obj)
 
-with open('result.txt', 'r', encoding='utf-8') as f:
-    data = f.readlines()
-
+with open('result.json', 'r', encoding='utf-8') as f:
+    data = json.load(f)
+    
 documents = []
 
-for i in range(len(data)):
-    line = data[i].split('/')
+for i in range(len(data["names"])):
     documents.append(Document(
-        page_content=line[0],
-        metadata={"author": line[2], "ratings": line[1]},
+        page_content=data["comments"][i],
+        metadata={"names": data["names"][i], "ratings": data["ratings"][i]},
     ))
 
 vectorstore = Chroma.from_documents(
